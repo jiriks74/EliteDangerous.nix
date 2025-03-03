@@ -13,8 +13,8 @@
   in {
     formatter.x86_64-linux = pkgs.alejandra;
     packages.x86_64-linux = {
-      EDMarketConnector = pkgs.callPackage ./EDMarketConnector.nix {};
-      min-ed-launcher = pkgs.callPackage ./min-ed-launcher.nix {};
+      EDMarketConnector = pkgs.callPackage ./pkgs/EDMarketConnector.nix {};
+      min-ed-launcher = pkgs.callPackage ./pkgs/min-ed-launcher/min-ed-launcher.nix {};
     };
   };
 }

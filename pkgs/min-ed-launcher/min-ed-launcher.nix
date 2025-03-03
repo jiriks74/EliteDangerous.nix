@@ -18,7 +18,7 @@ buildDotnetModule rec {
   };
 
   projectFile = "MinEdLauncher.sln";
-  nugetDeps = ./min-ed-launcher.deps.json;
+  nugetDeps = ./deps.json;
   buildInputs = [
     git
   ];
