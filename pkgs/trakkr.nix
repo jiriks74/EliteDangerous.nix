@@ -8,7 +8,7 @@
   electron_32,
 }:
 buildNpmPackage rec {
-  pname = "Trakkr";
+  pname = "trakkr";
   version = "0.1.7";
   nodejs = nodejs_20;
 
@@ -78,9 +78,10 @@ buildNpmPackage rec {
   ];
 
   meta = {
-    description = "A mission tracking tool for Elite: Dangerous";
+    description = "Mission tracking tool for Elite: Dangerous";
     longDescription = "Trakkr is specifically designed to assist Elite Dangerous missions, offering tailored support to enhance the efficiency and management of their operations.";
     homepage = "https://github.com/skybreakdigital/trakkr-app";
+    changelog = "https://github.com/skybreakdigital/trakkr-app/releases/tag/v${version}";
     mainProgram = "Trakkr";
     license = lib.licenses.gpl3Only;
     maintainers = with lib.maintainers; [ jiriks74 ];

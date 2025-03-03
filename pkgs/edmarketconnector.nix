@@ -20,7 +20,7 @@ let
   };
 in
 stdenv.mkDerivation rec {
-  pname = "EDMarketConnector";
+  pname = "edmarketconnector";
   version = "${pkgVersion}";
 
   src = fetchFromGitHub {
@@ -68,6 +68,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/EDCD/EDMarketConnector";
     description = "Uploads Elite: Dangerous market data to popular trading tools";
     longDescription = "Downloads commodity market and other station data from the game Elite: Dangerous for use with all popular online and offline trading tools. ";
+    changelog = "https://github.com/EDCD/EDMarketConnector/releases/tag/Release%2F${version}";
     license = lib.licenses.gpl2Only;
     platforms = lib.platforms.x86_64;
     mainProgram = "EDMarketConnector";

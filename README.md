@@ -31,14 +31,14 @@ let
     hash = "sha256-J2S9co53pYfSIQvXHxc/+7F5DO5qygxIgYnFuaqRMCs=";
   };
   min-ed-launcher = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/min-ed-launcher/min-ed-launcher.nix" {});
-  EDMarketConnector = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/EDMarketConnector.nix" {});
-  Trakkr = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/Trakkr.nix" {});
+  edmarketconnector = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/edmarketconnector.nix" {});
+  trakkr = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/trakkr.nix" {});
 in
 {
   environment.systemPackages = [
     min-ed-launcher
-    EDMarketConnector
-    Trakkr
+    edmarketconnector
+    trakkr
   ];
 }
 ```
@@ -73,8 +73,8 @@ Flake users are assumed to have a `flake.nix` file and a `configuration.nix`.
                 {
                   environment.systemPackages = [
                     inputs.EliteDangerous.flake.packages.min-ed-launcher
-                    inputs.EliteDangerous.flake.packages.EDMarketConnector
-                    inputs.EliteDangerous.flake.packages.Trakkr
+                    inputs.EliteDangerous.flake.packages.edmarketconnector
+                    inputs.EliteDangerous.flake.packages.trakkr
                   ];
                 }
                 # other modules...
