@@ -62,7 +62,7 @@ Flake users are assumed to have a `flake.nix` file and a `configuration.nix`.
 }
 ```
 
-2 - Add the `dzgui` package to your environment packages:
+2 - Add the desired package to your environment packages:
 
 ```nix
 # flake.nix
@@ -90,7 +90,7 @@ Flake users are assumed to have a `flake.nix` file and a `configuration.nix`.
 nixos-rebuild --switch --flake .#your-hostname-here
 ```
 
-Now dzgui will update together with your flake:
+Now the tools will update together with your flake:
 
 ```sh
 nix flake update
