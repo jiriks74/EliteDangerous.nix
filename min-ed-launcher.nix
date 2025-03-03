@@ -27,8 +27,8 @@ buildDotnetModule rec {
 
   meta = {
     homepage = "https://github.com/rfvgyhn/min-ed-launcher";
-    description = "";
-    license = lib.licenses.gpl2Only;
+    description = "Minimal Elite Dangerous Launcher";
+    license = lib.licenses.mit;
     platforms = lib.platforms.x86_64;
     mainProgram = "MinEdLauncher";
     maintainers = with lib.maintainers; [ jiriks74 ];
