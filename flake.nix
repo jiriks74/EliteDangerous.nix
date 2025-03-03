@@ -15,6 +15,7 @@
     packages.x86_64-linux = {
       EDMarketConnector = pkgs.callPackage ./pkgs/EDMarketConnector.nix {};
       min-ed-launcher = pkgs.callPackage ./pkgs/min-ed-launcher/min-ed-launcher.nix {};
+      Trakkr = pkgs.callPackage ./pkgs/trakkr.nix {};
     };
   };
 }

@@ -30,7 +30,8 @@ writeShellScriptBin "EDMarketConnector" ''
     homepage = "https://github.com/EDCD/EDMarketConnector";
     description = "Downloads commodity market and other station data from the game Elite: Dangerous for use with all popular online and offline trading tools. ";
     license = lib.licenses.gpl2Only;
-    maintainers = with lib.maintainers; [ jiriks74 ];
     platforms = lib.platforms.x86_64;
+    mainProgram = "EDMarketConnector";
+    maintainers = with lib.maintainers; [ jiriks74 ];
   };
 }
