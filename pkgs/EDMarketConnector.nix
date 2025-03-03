@@ -55,6 +55,9 @@ stdenv.mkDerivation rec {
     mkdir -p "$out/share/applications/"
     cp "$src/io.edcd.EDMarketConnector.desktop" "$out/share/applications/"
 
+    substituteInPlace "$out/share/applications/io.edcd.EDMarketConnector.desktop" \
+      --replace-fail 'edmarketconnector' 'EDMarketConnector'
+
     makeWrapper ${pythonEnv}/bin/python $out/bin/EDMarketConnector \
       --add-flags "${src}/EDMarketConnector.py $@"
 
