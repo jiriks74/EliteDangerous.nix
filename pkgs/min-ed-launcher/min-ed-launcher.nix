@@ -19,9 +19,7 @@ buildDotnetModule rec {
 
   projectFile = "MinEdLauncher.sln";
   nugetDeps = ./deps.json;
-  buildInputs = [
-    git
-  ];
+  buildInputs = [git];
 
   executables = ["MinEdLauncher"];
 
@@ -31,6 +29,6 @@ buildDotnetModule rec {
     license = lib.licenses.mit;
     platforms = lib.platforms.x86_64;
     mainProgram = "MinEdLauncher";
-    maintainers = with lib.maintainers; [ jiriks74 ];
+    maintainers = with lib.maintainers; [jiriks74];
   };
 }

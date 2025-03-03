@@ -1,6 +1,11 @@
-{ lib, fetchFromGitHub, buildNpmPackage, makeDesktopItem, nodejs_20, electron_32
+{
+  lib,
+  fetchFromGitHub,
+  buildNpmPackage,
+  makeDesktopItem,
+  nodejs_20,
+  electron_32,
 }:
-
 buildNpmPackage rec {
   pname = "Trakkr";
   version = "0.1.7";
@@ -60,18 +65,17 @@ buildNpmPackage rec {
       exec = "Trakkr";
       icon = "Trakkr";
       desktopName = "Trakkr";
-      categories = [ "Game" "Utility" ];
+      categories = ["Game" "Utility"];
       comment = meta.description;
       terminal = false;
     })
   ];
 
   meta = {
-    description =
-      "Trakkr is specifically designed to assist Elite Dangerous missions, offering tailored support to enhance the efficiency and management of their operations.";
+    description = "Trakkr is specifically designed to assist Elite Dangerous missions, offering tailored support to enhance the efficiency and management of their operations.";
     homepage = "https://github.com/skybreakdigital/trakkr-app";
     mainProgram = "Trakkr";
     license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ jiriks74 ];
+    maintainers = with lib.maintainers; [jiriks74];
   };
 }

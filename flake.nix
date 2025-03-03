@@ -5,10 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = {
-    nixpkgs,
-    ...
-  }: let
+  outputs = {nixpkgs, ...}: let
     pkgs = nixpkgs.legacyPackages.x86_64-linux;
   in {
     formatter.x86_64-linux = pkgs.alejandra;
