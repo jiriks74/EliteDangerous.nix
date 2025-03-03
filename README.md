@@ -10,6 +10,7 @@ Elite: Dangerous tools packaged for nix.
 There are currently only 2 tools provided:
 - [min-ed-launcher](https://github.com/rfvgyhn/min-ed-launcher)
 - [EDMarketConnector](https://github.com/EDCD/EDMarketConnector)
+- [Trakkr](https://github.com/skybreakdigital/trakkr-app)
 
 ## Installation
 
@@ -26,16 +27,18 @@ let
   EliteDangerous.flake = pkgs.fetchFromGitHub {
     owner = "jiriks74";
     repo = "EliteDangerous.flake";
-    rev = "32d6e81e47f367bd0469fe0388c9ff45dad7252a";
-    hash = "sha256-4cPoqYvBoNU0fr5FhzryqG5bSnoSmUkVQgBzpAaLZCk=";
+    rev = "main";
+    hash = "sha256-5w1l2Gg4xEJJtmpvG6+Eashv/9POgxpxlKbdSuGSfls=";
   };
   min-ed-launcher = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/min-ed-launcher/min-ed-launcher.nix" {});
   EDMarketConnector = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/EDMarketConnector.nix" {});
+  Trakkr = (pkgs.callPackage "${EliteDangerous.flake}/pkgs/Trakkr.nix" {});
 in
 {
   environment.systemPackages = [
     min-ed-launcher
     EDMarketConnector
+    Trakkr
   ];
 }
 ```
@@ -71,6 +74,7 @@ Flake users are assumed to have a `flake.nix` file and a `configuration.nix`.
                   environment.systemPackages = [
                     inputs.EliteDangerous.flake.packages.min-ed-launcher
                     inputs.EliteDangerous.flake.packages.EDMarketConnector
+                    inputs.EliteDangerous.flake.packages.Trakkr
                   ];
                 }
                 # other modules...
