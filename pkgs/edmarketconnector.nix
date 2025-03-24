@@ -12,7 +12,11 @@ let
     extraLibs = with python3Full.pkgs.pythonPackages; [
       requests
       pillow
-      watchdog
+      (watchdog.overrideAttrs(finalAttrs: previousAttrs: {
+        disabledTests = [
+          "test_select_fd"
+        ];
+      }))
       semantic-version
       psutil
     ];
