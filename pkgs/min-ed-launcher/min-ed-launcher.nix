@@ -12,7 +12,7 @@ buildDotnetModule rec {
     owner = "rfvgyhn";
     repo = "min-ed-launcher";
     tag = "v${version}";
-    hash = "sha256-ur1stk5dzdf8FgjGFCVEcNgBDdfYl7Iy7OjwabxV9X8=";
+    hash = "sha256-p970rsDyqXBbxo18q/ocNRkBKBq2CwJA3tAfDicrTOE=";
 
     leaveDotGit = true;
   };
