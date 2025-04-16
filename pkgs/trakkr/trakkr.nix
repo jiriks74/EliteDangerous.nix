@@ -4,6 +4,7 @@
   buildNpmPackage,
   makeDesktopItem,
   copyDesktopItems,
+  zenity,
   nodejs_20,
   electron_33,
 }:
@@ -18,6 +19,10 @@ buildNpmPackage rec {
     tag = "v${version}";
     hash = "sha256-roL0PVytPPpmkz/6yCvrtaTUhNvqvEh0/uRyPWiJj7I=";
   };
+
+  patches = [
+    ./custom_journal_path.patch
+  ];
 
   env.ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
   npmDepsHash = "sha256-qKnyFw2wnSTywKQIFADEAF/D8HsENICjqbSI4yWsZAU=";
@@ -49,17 +54,41 @@ buildNpmPackage rec {
     cp -r ./dist/*-unpacked/{locales,resources{,.pak}} "$out/share/lib/Trakkr"
     cp ./dist/index.html "$out/share/lib/Trakkr"
 
+    mkdir -p $out/bin
+    cat << EOF > $out/bin/Trakkr
+    #!/usr/bin/env bash
+    if [[ -n "\$TRAKKR_CUSTOM_JOURNAL_LOCATION" ]] && [[ ! -d "\$TRAKKR_CUSTOM_JOURNAL_LOCATION" ]]; then
+      ${zenity}/bin/zenity --error --text="'TRAKKR_CUSTOM_JOURNAL_LOCATION' is set but leads to a non-existent directory!"
+      ${zenity}/bin/zenity --info --text="You must enter the live game at least once to generate the journal files."
+      exit 1
+    fi
+
+    if [[ -z "\$TRAKKR_CUSTOM_JOURNAL_LOCATION" ]] && [[ ! -d "\$HOME/Saved Games/Frontier Developments/Elite Dangerous" ]]; then
+      if [[ -d "\$HOME/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/" ]]; then
+        TRAKKR_CUSTOM_JOURNAL_LOCATION="\$HOME/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/"
+      else
+        ${zenity}/bin/zenity --error --text="Could not determine the location of journal files!"
+        ${zenity}/bin/zenity --info --text="Set the 'TRAKKR_CUSTOM_JOURNAL_LOCATION' environment variable to the correct directory."
+        exit 1
+      fi
+    fi
 
     # Code relies on checking app.isPackaged, which returns false if the executable is electron.
     # Set ELECTRON_FORCE_IS_PACKAGED=1.
     # https://github.com/electron/electron/issues/35153#issuecomment-1202718531
-    makeWrapper '${electron_33}/bin/electron' "$out/bin/Trakkr" \
-      --add-flags "$out/share/lib/Trakkr/resources/app.asar" \
-      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}" \
-      --add-flags "--disable-gpu" \
-      --add-flags "--disable-gpu-rendering" \
-      --set ELECTRON_FORCE_IS_PACKAGED=1 \
-      --inherit-argv0
+    export ELECTRON_FORCE_IS_PACKAGED=1
+
+    echo "TRAKKR_CUSTOM_JOURNAL_LOCATION is set to"
+    export TRAKKR_CUSTOM_JOURNAL_LOCATION="\$TRAKKR_CUSTOM_JOURNAL_LOCATION"
+
+    '${electron_33}/bin/electron' $out/share/lib/Trakkr/resources/app.asar \
+      \''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}} \
+      --disable-gpu \
+      --disable-gpu-rendering \
+      $@
+    EOF
+
+    chmod +x $out/bin/Trakkr
 
     runHook postInstall
   '';
