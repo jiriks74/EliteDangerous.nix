@@ -2,13 +2,12 @@
   lib,
   fetchFromGitHub,
   stdenv,
-  python312,
+  python3,
   makeWrapper,
-  makeDesktopItem,
 }:
 let
-  pythonEnv = python312.buildEnv.override {
-    extraLibs = with python312.pkgs.pythonPackages; [
+  pythonEnv = python3.buildEnv.override {
+    extraLibs = with python3.pkgs; [
       tkinter
       requests
       pillow
