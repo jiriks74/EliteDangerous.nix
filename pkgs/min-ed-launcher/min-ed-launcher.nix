@@ -6,22 +6,24 @@
 }:
 buildDotnetModule rec {
   pname = "min-ed-launcher";
-  version = "0.11.2";
+  version = "0.11.3";
 
   src = fetchFromGitHub {
     owner = "rfvgyhn";
     repo = "min-ed-launcher";
     tag = "v${version}";
-    hash = "sha256-p970rsDyqXBbxo18q/ocNRkBKBq2CwJA3tAfDicrTOE=";
+    hash = "sha256-HJIvbuTsCG51PPVieJbXGyAviqgM9/WPz0+0VhIWz9k=";
 
-    leaveDotGit = true;
+    leaveDotGit = true; # During build the current commit is appended to the version
   };
 
   projectFile = "MinEdLauncher.sln";
   nugetDeps = ./deps.json;
-  buildInputs = [git];
+  buildInputs = [
+    git # During build the current commit is appended to the version
+  ];
 
-  executables = ["MinEdLauncher"];
+  executables = [ "MinEdLauncher" ];
 
   meta = {
     homepage = "https://github.com/rfvgyhn/min-ed-launcher";
@@ -29,6 +31,6 @@ buildDotnetModule rec {
     license = lib.licenses.mit;
     platforms = lib.platforms.x86_64;
     mainProgram = "MinEdLauncher";
-    maintainers = with lib.maintainers; [jiriks74];
+    maintainers = with lib.maintainers; [ jiriks74 ];
   };
 }
