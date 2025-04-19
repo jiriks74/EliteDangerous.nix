@@ -2,21 +2,21 @@
   lib,
   fetchFromGitHub,
   stdenv,
-  python3Full,
+  python312,
   makeWrapper,
   makeDesktopItem,
 }:
 let
-  pkgVersion = "5.12.2";
-  pythonEnv = python3Full.buildEnv.override {
-    extraLibs = with python3Full.pkgs.pythonPackages; [
+  pythonEnv = python312.buildEnv.override {
+    extraLibs = with python312.pkgs.pythonPackages; [
+      tkinter
       requests
       pillow
-      (watchdog.overrideAttrs(finalAttrs: previousAttrs: {
+      (watchdog.overrideAttrs {
         disabledTests = [
           "test_select_fd"
         ];
-      }))
+      })
       semantic-version
       psutil
     ];
@@ -25,29 +25,14 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "edmarketconnector";
-  version = "${pkgVersion}";
+  version = "5.12.5";
 
   src = fetchFromGitHub {
     owner = "EDCD";
     repo = "EDMarketConnector";
-    tag = "Release/${pkgVersion}";
-    hash = "sha256-3ywu/EJdIsKqTN3uaA5F0tZK6tybl483Yiwqh7W4yCc=";
+    tag = "Release/${version}";
+    hash = "sha256-pcdm3eWMVi+3cYXRcNjU2vYJpj8f0YS3GT0sFGSFYb4=";
   };
-
-  desktopItems = [
-    (makeDesktopItem {
-      name = "EDMarketConnector";
-      exec = "EDMarketConnector";
-      icon = "EDMarketConnector";
-      desktopName = "EDMarketConnector";
-      categories = [
-        "Game"
-        "Utility"
-      ];
-      comment = meta.description;
-      terminal = false;
-    })
-  ];
 
   nativeBuildInputs = [ makeWrapper ];
 
@@ -60,9 +45,9 @@ stdenv.mkDerivation rec {
     cp "$src/io.edcd.EDMarketConnector.desktop" "$out/share/applications/"
 
     substituteInPlace "$out/share/applications/io.edcd.EDMarketConnector.desktop" \
-      --replace-fail 'edmarketconnector' 'EDMarketConnector'
+      --replace-fail 'edmarketconnector' "$out/bin/edmarketconnector"
 
-    makeWrapper ${pythonEnv}/bin/python $out/bin/EDMarketConnector \
+    makeWrapper ${pythonEnv}/bin/python $out/bin/edmarketconnector \
       --add-flags "${src}/EDMarketConnector.py $@"
 
     runHook postInstallPhase
@@ -71,11 +56,11 @@ stdenv.mkDerivation rec {
   meta = {
     homepage = "https://github.com/EDCD/EDMarketConnector";
     description = "Uploads Elite: Dangerous market data to popular trading tools";
-    longDescription = "Downloads commodity market and other station data from the game Elite: Dangerous for use with all popular online and offline trading tools. ";
+    longDescription = "Downloads commodity market and other station data from the game Elite: Dangerous for use with all popular online and offline trading tools.";
     changelog = "https://github.com/EDCD/EDMarketConnector/releases/tag/Release%2F${version}";
     license = lib.licenses.gpl2Only;
     platforms = lib.platforms.x86_64;
-    mainProgram = "EDMarketConnector";
+    mainProgram = "edmarketconnector";
     maintainers = with lib.maintainers; [ jiriks74 ];
   };
 }
