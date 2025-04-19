@@ -4,6 +4,7 @@
   buildNpmPackage,
   makeDesktopItem,
   copyDesktopItems,
+  bash,
   zenity,
   nodejs_20,
   electron_33,
@@ -56,7 +57,7 @@ buildNpmPackage rec {
 
     mkdir -p $out/bin
     cat << EOF > $out/bin/Trakkr
-    #!/usr/bin/env bash
+    #!${bash}/bin/bash
     if [[ -n "\$TRAKKR_CUSTOM_JOURNAL_LOCATION" ]] && [[ ! -d "\$TRAKKR_CUSTOM_JOURNAL_LOCATION" ]]; then
       ${zenity}/bin/zenity --error --text="'TRAKKR_CUSTOM_JOURNAL_LOCATION' is set but leads to a non-existent directory!"
       ${zenity}/bin/zenity --info --text="You must enter the live game at least once to generate the journal files."
@@ -78,14 +79,13 @@ buildNpmPackage rec {
     # https://github.com/electron/electron/issues/35153#issuecomment-1202718531
     export ELECTRON_FORCE_IS_PACKAGED=1
 
-    echo "TRAKKR_CUSTOM_JOURNAL_LOCATION is set to"
     export TRAKKR_CUSTOM_JOURNAL_LOCATION="\$TRAKKR_CUSTOM_JOURNAL_LOCATION"
 
     '${electron_33}/bin/electron' $out/share/lib/Trakkr/resources/app.asar \
       \''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}} \
       --disable-gpu \
       --disable-gpu-rendering \
-      $@
+      \$@
     EOF
 
     chmod +x $out/bin/Trakkr
